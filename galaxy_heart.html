@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Galaxy ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at bottom, #30105c 0%, #100522 55%, #03010c 100%);
+            overflow-x: hidden;
+        }
+
+        /* Bintang galaksi */
+        #stars {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #d8b4fe;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from { opacity: 0.2; transform: scale(0.7); }
+            to { opacity: 1; transform: scale(1.5); }
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: auto;
+            padding: 35px 20px 50px;
+        }
+
+        header {
+            text-align: center;
+            padding: 65px 10px 45px;
+        }
+
+        .moon {
+            font-size: 55px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        h1 {
+            margin: 20px 0 12px;
+            font-size: clamp(32px, 7vw, 58px);
+            background: linear-gradient(90deg, #fff, #f0abfc, #c4b5fd);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px #c084fc44;
+        }
+
+        header p {
+            color: #e9d5ff;
+            line-height: 1.8;
+        }
+
+        .tagline {
+            margin-top: 18px;
+            color: #f9a8d4;
+            font-style: italic;
+        }
+
+        h2 {
+            text-align: center;
+            margin: 25px 0;
+            font-size: 27px;
+            color: #f5d0fe;
+        }
+
+        /* Galeri foto */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .photo-card {
+            background: #ffffff0d;
+            border: 1px solid #e9d5ff33;
+            border-radius: 18px;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-7px);
+            border-color: #f0abfc;
+            box-shadow: 0 0 25px #c084fc33;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            display: block;
+            border-radius: 12px;
+            background: #291442;
+        }
+
+        .photo-card p {
+            text-align: center;
+            padding: 13px 5px 8px;
+            color: #f5d0fe;
+        }
+
+        /* Pesan cinta */
+        .love-letter {
+            margin-top: 50px;
+            padding: 30px;
+            border: 1px solid #e9d5ff44;
+            border-radius: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #a855f71c, #ec48991c);
+            line-height: 1.9;
+        }
+
+        .love-letter h2 {
+            margin-top: 0;
+        }
+
+        .love-letter p {
+            color: #f3e8ff;
+        }
+
+        .love-letter .signature {
+            margin-top: 18px;
+            color: #f9a8d4;
+            font-weight: bold;
+        }
+
+        /* Tombol */
+        .love-button {
+            display: block;
+            margin: 25px auto 0;
+            border: none;
+            border-radius: 30px;
+            padding: 13px 25px;
+            background: linear-gradient(90deg, #c026d3, #ec4899);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 0 20px #ec489955;
+            transition: 0.3s;
+        }
+
+        .love-button:hover {
+            transform: scale(1.05);
+        }
+
+        #secret {
+            display: none;
+            margin-top: 20px;
+            color: #fbcfe8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 35px 10px 10px;
+            color: #c4b5fd;
+            font-size: 13px;
+        }
+
+        /* Foto saat diperbesar */
+        #lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #05010eee;
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        #lightbox img {
+            max-width: 95%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 0 35px #c084fc55;
+        }
+
+        @media (max-width: 700px) {
+            .gallery {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .photo-card img {
+                height: 175px;
+            }
+
+            main {
+                padding: 15px 12px 35px;
+            }
+
+            header {
+                padding-top: 45px;
+            }
+
+            .love-letter {
+                padding: 22px 16px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-card img {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="stars"></div>
+
+    <main>
+        <header>
+            <div class="moon">🌙</div>
+            <h1>Our Little Galaxy</h1>
+
+            <p>
+                Di antara miliaran bintang di alam semesta,<br>
+                aku bersyukur bisa menemukan kamu. ❤️
+            </p>
+
+            <div class="tagline">
+                "You are my favorite universe."
+            </div>
+        </header>
+
+        <section>
+            <h2>✨ Our Memories ✨</h2>
+
+            <div class="gallery">
+                <div class="photo-card"
+                     onclick="openPhoto(this)">
+                    <img src="d:\IMG-20261010-WA0044.jpg"
+                         alt="Kenangan pertama"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/301050/ffffff?text=Masukkan+Foto+1'">
+                    <p>💗 My Favorite Person</p>
+                </div>
+
+                <div class="photo-card"
+                     onclick="openPhoto(this)">
+                    <img src="c:\Users\LENOVO\CrossDevice\Infinix ZERO 30\storage\Pictures\WhatsApp\IMG-20261010-WA0047.jpg"
+                         alt="Kenangan kedua"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/301050/ffffff?text=Masukkan+Foto+2'">
+                    <p>🌷 Sweet Memories</p>
+                </div>
+
+                <div class="photo-card"
+                     onclick="openPhoto(this)">
+                    <img src="d:\WhatsApp Image 2026-10-10 at 22.31.12.jpeg"
+                         alt="Kenangan ketiga"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/301050/ffffff?text=Masukkan+Foto+3'">
+                    <p>🌌 You & Me</p>
+                </div>
+
+                <div class="photo-card"
+                     onclick="openPhoto(this)">
+                    <img src="d:\WhatsApp Image 2026-10-10 at 22.31.11.jpeg"
+                         alt="Kenangan keempat"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/301050/ffffff?text=Masukkan+Foto+4'">
+                    <p>🧸 My Happy Place</p>
+                </div>
+
+                <div class="photo-card"
+                     onclick="openPhoto(this)">
+                    <img src="d:\WhatsApp Image 2026-10-10 at 21.51.12.jpeg"
+                         alt="Kenangan kelima"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/301050/ffffff?text=Masukkan+Foto+5'">
+                    <p>🌙 Forever Us</p>
+                </div>
+
+                <div class="photo-card"
+                     onclick="openPhoto(this)">
+                    <img src="d:\WhatsApp Image 2026-10-10 at 21.51.11.jpeg"
+                         alt="Kenangan keenam"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/301050/ffffff?text=Masukkan+Foto+6'">
+                    <p>❤️ My Universe</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="love-letter">
+            <h2>💌 A Little Message For You</h2>
+
+            <p>
+                Hai, bububku. ❤️<br>
+                Terima kasih sudah menjadi bagian indah
+                dalam hidupku. Kalau semesta punya banyak
+                galaksi, aku tetap akan memilih kamu sebagai
+                tempat favoritku untuk pulang.<br><br>
+
+                Semoga kita selalu punya alasan untuk
+                tersenyum bersama, melewati hari-hari sulit,
+                dan membuat lebih banyak kenangan indah.
+                Aku tidak butuh dunia yang sempurna,
+                selama ada kamu di dalam ceritaku. 💕
+            </p>
+
+            <button class="love-button"
+                    onclick="showSecret()">
+                Klik kalau kamu sayang aku 💖
+            </button>
+
+            <div id="secret">
+                I LOVE YOU TO THE MOON AND BACK! 🌙💗
+                <br>
+                Kamu adalah bintang paling indah di galaksiku.
+            </div>
+
+            <p class="signature">
+                Forever yours, with love. 💜
+            </p>
+        </section>
+
+        <footer>
+            Dibuat dengan ❤️ khusus untuk kamu
+            <br>
+            © Our Little Galaxy
+        </footer>
+    </main>
+
+    <div id="lightbox" onclick="closePhoto()">
+        <img id="bigPhoto" src="" alt="Foto kenangan">
+    </div>
+
+    <script>
+        // Membuat bintang secara acak
+        const stars = document.getElementById("stars");
+
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement("div");
+            star.className = "star";
+
+            star.style.left = Math.random() * 100 + "%";
+            star.style.top = Math.random() * 100 + "%";
+            star.style.animationDelay = Math.random() * 3 + "s";
+            star.style.animationDuration =
+                (1 + Math.random() * 3) + "s";
+
+            stars.appendChild(star);
+        }
+
+        // Menampilkan pesan rahasia
+        function showSecret() {
+            const secret = document.getElementById("secret");
+
+            if (secret.style.display === "block") {
+                secret.style.display = "none";
+            } else {
+                secret.style.display = "block";
+            }
+        }
+
+        // Memperbesar foto ketika diklik
+        function openPhoto(card) {
+            const photo = card.querySelector("img");
+
+            document.getElementById("bigPhoto").src = photo.src;
+            document.getElementById("lightbox").style.display = "flex";
+        }
+
+        // Menutup foto yang diperbesar
+        function closePhoto() {
+            document.getElementById("lightbox").style.display = "none";
+        }
+    </script>
+</body>
+</html>
